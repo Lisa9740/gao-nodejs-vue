@@ -19,7 +19,10 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
  Accès base de données : 
  
     - remplir fichier config.json avec vos information de bdd
-
+    - installer sequelize-cli
+    - npx sequelize db:migrate
+    - npx sequelize db:seed:all
+    
 
 ## Initialisation du projet frontend:
 
