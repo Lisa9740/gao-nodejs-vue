@@ -1,8 +1,11 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Home from './home.vue'
+import Vuetify from "vuetify"
 
 Vue.config.productionTip = false
+Vue.use(Vuetify);
 
 new Vue({
-  render: h => h(App),
+  vuetify: new Vuetify(),
+  render: h => h(Home),
 }).$mount('#app')
