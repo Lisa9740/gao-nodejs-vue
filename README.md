@@ -41,4 +41,10 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     
     email : admin@gmail.com
     mot de passe : test
+
+## TODO :
+    - pouvoir supprimer une attribution
+    - afficher attribution par date
+    - ajouter pagination 
+  
   
