@@ -22,6 +22,7 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     - installer sequelize-cli
     - npx sequelize db:migrate
     - npx sequelize db:seed:all
+   
     
 
 ## Initialisation du projet frontend:
@@ -34,3 +35,10 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
 
 ## Lancement du projet :
   cd client && npm run serve
+  
+  
+## Identifiant de connexion :
+    
+    email : admin@gmail.com
+    mot de passe : test
+  
