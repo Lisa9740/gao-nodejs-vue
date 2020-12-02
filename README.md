@@ -43,6 +43,7 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     mot de passe : test
 
 ## TODO :
+    - ajouter navbar
     - pouvoir supprimer une attribution
     - afficher attribution par date
     - ajouter pagination 
