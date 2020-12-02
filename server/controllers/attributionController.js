@@ -9,7 +9,7 @@ exports.create = (req,res) => {
     const {firstname, lastname, computerId, id_client,  date, hour} = req.body;
     console.log(req.body.id_client)
     if (id_client !== undefined){
-        customer.findOne({where: { id : id_client}}).then(data =>{
+        customer.findOne({where: { id_client}}).then(data =>{
 
             attribution.create({
                 date: date,

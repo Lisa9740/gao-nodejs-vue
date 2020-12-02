@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": "E6g&fgLg",
+    "database": "gaonodejsvue",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
