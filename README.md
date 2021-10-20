@@ -19,7 +19,6 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
  Accès base de données : 
 
     - créer et remplir le fichier config.json en prenant l'example de conf.example.json
-    - installer sequelize-cli
     - npx sequelize db:migrate
     - npx sequelize db:seed:all
    
