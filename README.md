@@ -17,8 +17,8 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     npm install
     
  Accès base de données : 
- 
-    - remplir fichier config.json avec vos information de bdd
+
+    - créer et remplir le fichier config.json en prenant l'example de conf.example.json
     - installer sequelize-cli
     - npx sequelize db:migrate
     - npx sequelize db:seed:all
