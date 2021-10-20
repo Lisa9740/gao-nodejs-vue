@@ -15,12 +15,11 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
 
     cd server
     npm install
-    
- Accès base de données : 
 
     - créer et remplir le fichier config.json en prenant l'example de conf.example.json
     - npx sequelize db:migrate
     - npx sequelize db:seed:all
+    - npm start
    
     
 
@@ -42,6 +41,7 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     mot de passe : test
 
 ## TODO :
+    - debuuger attribution
     - ajouter navbar
     - pouvoir supprimer une attribution
     - afficher attribution par date
