@@ -1,45 +1,46 @@
-const db = require("../models");
-const attribution = db.Attribution
-const computer = db.Computer
-const customer = db.Customer
-/*const Op = db.Sequelize.Op;*/
+const attribution = require('../models/attribution')
+const computer = require('../models/computer')
+const customer = require('../models/customer')
 
 // Create and Save a new attribution
-exports.create = (req,res) => {
-    const {firstname, lastname, computerId, id_client,  date, hour} = req.body;
-    console.log(req.body.id_client)
-    if (id_client !== undefined){
-        customer.findOne({where: { id_client}}).then(data =>{
+exports.create = async (req,res) => {
+    const {computerId, customerId, date, hours } = req.body;
 
-            attribution.create({
-                date: date,
-                hour : hour,
-                customerId : id_client,
-                computerId : computerId}).then(attribution =>{
-                let returnedAttribution =  [{
-                    id : attribution.id,
-                    date : attribution.date,
-                    hour : attribution.hour,
-                    Customer : data
-                }];
+    console.log(req.body)
+    try {
+        const customerExist =  await customer.findOne({
+            attributes: ['id', 'firstname', 'lastname'],
+            where: {
+                id: customerId
+            }
+        });
 
-                res.status(200).json(returnedAttribution);
-            })
+        const attr= new attribution({
+            date,
+            hour: hours,
+            customerId,
+            computerId});
+        const nouvelleAttribution = await attr.save();
+
+        const user = await customer.findOne({
+            attributes: ['id', 'firstname', 'lastname'],
+            where: {
+                id: customerId
+            }
+        });
+
+
+
+        return res.status(200).json({
+            id: nouvelleAttribution.id,
+            date: nouvelleAttribution.date,
+            hours: nouvelleAttribution.hour,
+            Customer: user
         })
-    }else{
-        customer.create({firstname, lastname}).then( data => {
-            attribution.create({
-                date: date,
-                hour : hour,
-                customerId : data.id,
-                computerId : computerId}).then(attribution =>{
-                let returnedAttribution =  [{
-                    id : attribution.id,
-                    date : attribution.date,
-                    hour : attribution.hour,
-                    Customer : data }];
-                res.status(200).json(returnedAttribution);
-            })
+    } catch (error) {
+        return res.status(200).json({
+            success: false,
+            message: 'Ressource indisponible',
         })
     }
 
@@ -68,30 +69,31 @@ exports.findAll = (req, res) => {
 
 };
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
-
-};
+// // Update a Tutorial by the id in the request
+// exports.update = (req, res) => {
+//
+// };
 
 // Delete a Tutorial with the specified id in the request
-exports.delete = async (req, res, next) => {
-    const id = req.body.id;
+exports.delete = async (req, res) => {
+    const {id }= req.params;
     try {
-        const attribution = await attribution.findOne({
+        let attr = await attribution.findOne({
             where: { id }
         });
-        if(!attribution){
+        if(!attr){
             return res.status(200).json({
                 success: false,
                 message: 'Information introuvable',
             })
+        }else{
+            await attr.destroy();
+            return res.status(200).json({
+                success: true,
+                message: 'Attribution annulée',
+                content: id
+            })
         }
-        await attribution.destroy();
-        return res.status(200).json({
-            success: true,
-            message: 'Attribution annulée',
-            content: id
-        })
     } catch (error) {
         console.log(error)
         return res.status(200).json({

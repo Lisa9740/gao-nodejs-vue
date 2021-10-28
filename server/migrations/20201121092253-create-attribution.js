@@ -9,24 +9,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       hour: {
         type: Sequelize.INTEGER
-      },
-      customerId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Customers",
-          key: "id"
-        }
-      },
-      computerId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Computers",
-          key: "id"
-        }
       },
       createdAt: {
         allowNull: false,

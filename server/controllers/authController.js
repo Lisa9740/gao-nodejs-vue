@@ -1,73 +1,48 @@
-const db = require("../models");
-const config = require("../config/authConfig");
-const User = db.User;
-
+const user = require("../models/user");
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+exports.login = async (req, res) => {
 
-exports.login = (req, res) => {
-    const {email} = req.body
+    const { email, password } = req.body;
 
-    User.findOne({
-        where: {
-           email
-        }}
-    ).then(user => {
-        if (!user){
-            return res.status(404).send({ message: "User Not found." });
-        }
-
-         bcrypt.compare(req.body.password, user.password, (err, result) => {
-
-             if (err) {
-                 return res.json({
-                     message: "Auth failed. Check email and password"
-                 });
-             }
-
-            if (result){
-                let token = jwt.sign({ id: user.id }, config.secret, {
-                    expiresIn: 86400 // 24 hours
-                });
-
-                res.status(200).send({
-                    id: user.id,
-                    email: user.email,
-                    token : token
-                });
+        console.log(req.body)
+        const userExist = await user.findOne({
+            attributes: ['id', 'email', 'password' ],
+            where: {
+                email
             }
-
-         });
-
-
-    })
-}
-
-/*        if (!user) {
-            return res.status(404).send({ message: "User Not found." });
-        }
-
-
-
-
-        if (!passwordIsValid) {
-            return res.status(401).send({
-                token: null,
-                message: "Invalid Password!"
-            });
-        }
-
-        return user;
-        let token = jwt.sign({ id: user.id }, config.secret, {
-                     expiresIn: 86400 // 24 hours
         });
 
+        console.log(userExist)
+        if(!userExist){
+            return res.status(200).json({
+                success: false,
+                message: 'Identifiants invalides',
+            })
+        }
 
-          return  res.status(200).send({
-              id: user.id,
-              email: user.email,
-              token: token
-          });
-*/
+        const isEqual = await bcrypt.compare(password, userExist.password);
+        if(!isEqual){
+            return res.status(200).json({
+                success: false,
+                message: 'Identifiants invalides',
+            })
+        }
+
+        const token = jwt.sign({
+                userId: userExist.id
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '2h' }
+        )
+
+        return res.status(200).json({
+            success: true,
+            message: 'Vous êtes connecté(e)',
+            token
+        })
+
+
+}

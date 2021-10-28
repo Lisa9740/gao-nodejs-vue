@@ -16,14 +16,7 @@ module.exports = {
       lastname : 'Doe',
       createdAt: new Date(),
       updatedAt: new Date(),
-    },
-      {
-        firstname : 'Pauline' ,
-        lastname : 'Morel',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ], {});
+    }], {});
   },
 
   down: async (queryInterface, Sequelize) => {
