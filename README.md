@@ -16,7 +16,7 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
     cd server
     npm install
 
-    - créer et remplir le fichier config.json en prenant l'example de conf.example.json
+    - créer et remplir le fichier .env en prenant l'example de .env.example
     - npx sequelize db:migrate
     - npx sequelize db:seed:all
     - npm start
@@ -36,15 +36,9 @@ Après avoir fait un git clone de ce projet, vous devez effectué les actions su
   
   
 ## Identifiant de connexion :
-    
     email : admin@gmail.com
     mot de passe : test
 
-## TODO :
-    - debuuger attribution
-    - ajouter navbar
-    - pouvoir supprimer une attribution
-    - afficher attribution par date
-    - ajouter pagination 
+
   
   

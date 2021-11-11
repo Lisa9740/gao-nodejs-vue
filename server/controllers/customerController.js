@@ -6,6 +6,7 @@ const Op = Sequelize.Op
 
 exports.create =  async (req, res, next) => {
     const {firstname, lastname, computerId, date, hours} = req.body;
+
     try {
 
         console.log(req.body)
@@ -41,7 +42,8 @@ exports.create =  async (req, res, next) => {
 
 // Retrieve all Customers from the database.
 exports.findAll = async  (req, res) => {
-    const queryCustomer = req.query.customer;
+    const queryCustomer = req.query.query;
+    console.log(queryCustomer)
     try{
         let data = await customer.findAll({
             attributes: ['id', 'firstname', "lastname"],
@@ -60,6 +62,8 @@ exports.findAll = async  (req, res) => {
                 ]
             }
         })
+
+        console.log(data)
 
         res.status(200).json(data);
 

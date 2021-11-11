@@ -8,6 +8,8 @@ computer.hasMany(attribution)
 attribution.belongsTo(customer)
 attribution.belongsTo(computer)
 
+// Define element per page for pagination
+let ITEM_PER_PAGE = 3;
 
 // Create and Save a new computer
 exports.create = (req, res) => {
@@ -17,12 +19,15 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Computers from the database.
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
     const currentDate = req.query.date
+    const page = +req.query.page || 1;
 
     try {
         computer.findAll({
             attributes: ['id', 'name'],
+            offset: (page - 1) * ITEM_PER_PAGE,
+            limit: ITEM_PER_PAGE,
             include: [{
                 model: attribution,
                 attributes: ['id', 'date', 'hour'],
@@ -39,7 +44,7 @@ exports.findAll = (req, res) => {
         }).then(data => {
             res.status(200).json(getComputerAttributions(data));
         });
-    } catch (e){
+    } catch (e) {
         return res.status(200).json({
             success: false,
             message: 'Ressource indisponible',
@@ -47,6 +52,19 @@ exports.findAll = (req, res) => {
     }
 
 };
+
+exports.getTotalPage = (req, res) => {
+    try {
+        computer.findAndCountAll().then(data => {
+            res.status(200).json(Math.ceil(data.count / ITEM_PER_PAGE));
+        });
+    } catch (e) {
+        return res.status(200).json({
+            success: false,
+            message: 'Ressource indisponible',
+        })
+    }
+}
 
 // Find a single Tutorial with an id
 exports.findComputerAttribution = (req, res) => {
@@ -62,18 +80,17 @@ exports.update = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = async (req, res, next) => {
-
     try {
         const id = req.body.id;
-        const computer = computer.findOne({
+        const Computer = await computer.findOne({
             where: { id }
         });
-        console.log(computer)
-        if(computer) {
-            //computer.destroy();
+
+        if (Computer) {
+            await Computer.destroy();
             return res.status(200).json({
                 success: true,
-                message: 'Attribution annulée'
+                message: 'Poste supprimé'
             })
         }
     } catch (error) {
@@ -87,6 +104,7 @@ exports.delete = async (req, res, next) => {
 
 function getComputerAttributions(data) {
     let computers = []
+
     data.forEach( computer => {
         let attributions = []
         if (computer.Attributions.length !== 0) {
@@ -96,6 +114,7 @@ function getComputerAttributions(data) {
             id : computer.id,
             name : computer.name,
             Attributions: attributions
+
         })
     })
     return computers;

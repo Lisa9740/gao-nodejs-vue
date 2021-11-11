@@ -1,11 +1,20 @@
 
 <template>
-  <v-dialog v-model="dialog" max-width="600px">
-    <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-icon color="green" small>mdi-plus</v-icon>
+  <v-dialog v-model="dialog" max-width="600px" >
+    <template v-slot:activator="{ on }" >
+      Ajouter nouveau poste
+      <v-btn
+          class="mx-2"
+          fab
+          dark
+          color="indigo"
+          v-on="on"
+      >
+        <v-icon dark>
+          mdi-plus
+        </v-icon>
       </v-btn>
-      Ajouter un ordinateur
+
     </template>
     <v-card>
       <v-card-title> Ajouter un ordinateur </v-card-title>
@@ -50,7 +59,7 @@ export default {
         const data = {
           name: this.name,
         };
-        axios.post('http://127.0.0.1:3000/api/computers/create', data)
+        axios.post('http://127.0.0.1:3000/api/computer/create', data)
             .then(({ data }) => {
               this.$emit('add', data)
               this.dialog = false

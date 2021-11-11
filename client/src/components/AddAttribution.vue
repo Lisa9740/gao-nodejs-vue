@@ -18,7 +18,7 @@
         <v-container>
           <v-row v-if="!ajouter">
             <v-col cols="12" md="6" sm="8">
-              <v-autocomplete :loading="loading" :items="customers" :search-input.sync="search" v-model="customer" item-text="name" return-object cache-items hide-no-data hide-details label="Sélection le client">
+              <v-autocomplete color="#3f51b5" :loading="loading" :items="customers" :search-input.sync="search" v-model="customer" item-text="name" return-object cache-items hide-no-data hide-details label="Sélectionner le client">
               </v-autocomplete>
             </v-col>
           </v-row>

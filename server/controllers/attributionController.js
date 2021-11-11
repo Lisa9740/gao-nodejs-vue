@@ -4,22 +4,26 @@ const customer = require('../models/customer')
 
 // Create and Save a new attribution
 exports.create = async (req,res) => {
-    const {computerId, customerId, date, hours } = req.body;
+    let {computerId, customerId, date, hour, firstname, lastname } = req.body;
 
     console.log(req.body)
     try {
-        const customerExist =  await customer.findOne({
-            attributes: ['id', 'firstname', 'lastname'],
-            where: {
-                id: customerId
-            }
-        });
+
+        if (!customerId){
+            const user = new customer({firstname, lastname});
+            const createdCustomer = await user.save();
+
+            customerId = createdCustomer.id
+        }
+
+
 
         const attr= new attribution({
             date,
-            hour: hours,
+            hour,
             customerId,
             computerId});
+
         const nouvelleAttribution = await attr.save();
 
         const user = await customer.findOne({
@@ -34,10 +38,11 @@ exports.create = async (req,res) => {
         return res.status(200).json({
             id: nouvelleAttribution.id,
             date: nouvelleAttribution.date,
-            hours: nouvelleAttribution.hour,
+            hour: nouvelleAttribution.hour,
             Customer: user
         })
     } catch (error) {
+        console.log(error)
         return res.status(200).json({
             success: false,
             message: 'Ressource indisponible',
@@ -76,7 +81,7 @@ exports.findAll = (req, res) => {
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = async (req, res) => {
-    const {id }= req.params;
+    const {id }= req.body;
     try {
         let attr = await attribution.findOne({
             where: { id }

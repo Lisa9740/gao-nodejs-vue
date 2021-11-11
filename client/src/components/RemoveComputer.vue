@@ -42,10 +42,9 @@ export default {
   },
   methods: {
     supprimer: function () {
-      axios.post('http://127.0.0.1:3000/api/computers/remove', {
-        id: this.computer.id,
-      }).then(({ data }) => {
+      axios.post('http://127.0.0.1:3000/api/computer/remove/', {id : this.computer.id}).then(({ data }) => {
         console.log(data)
+        this.$emit('remove');
         this.dialog = false
       })
           .catch(error => {

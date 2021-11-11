@@ -4,13 +4,23 @@
 
     <!-- subheader -->
     <div>
-      <v-subheader grey outlined class="bg-secondary" v-if="isLogged">
-        <h6 class="text-white mt-1"> Gestion ordinateur </h6>
+      <v-toolbar app>
+      <span class="hidden-sm-and-up">
+        <v-toolbar-side-icon @click="sidebar = !sidebar">
+        </v-toolbar-side-icon>
+      </span>
+        <v-toolbar-title>
+          <router-link to="/" tag="span" style="cursor: pointer">
+            GAO
+          </router-link>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon color="white" @click="disconnected">
-          <v-icon>mdi-export</v-icon>
-        </v-btn>
-      </v-subheader>
+        <v-toolbar-items>
+          <v-btn v-if="this.isLogged" icon color="black" @click="disconnected">
+            <v-icon>mdi-export</v-icon>
+          </v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
     </div>
 
     <!-- main with router view that import to handle routes -->

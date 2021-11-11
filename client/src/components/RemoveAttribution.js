@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         supprimer: function () {
-            axios.post('http://127.0.0.1:3000/api/attributions/remove', {
+            axios.post('http://127.0.0.1:3000/api/attribution/remove', {
                 id: this.attribution.id,
             }).then(({ data }) => {
                 console.log(data)

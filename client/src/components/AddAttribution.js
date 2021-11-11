@@ -37,14 +37,12 @@ export default {
         search: function (val) {
             if (val && val.length > 1) {
                 this.loading = true
-                axios.get('http://127.0.0.1:3000/api/customers/search', { params: { query: val } })
+                axios.get('http://127.0.0.1:3000/api/customer/search', { params: { query: val } })
                     .then(({ data }) => {
-                        console.log(data)
                         this.loading = false;
                         data.forEach(customer => {
                             this.customers.push(this.formattedCustomer(customer))
                         });
-
                     });
             }
         },
@@ -60,9 +58,9 @@ export default {
 
         attribute: function () {
             if (this.isValid()) {
-                axios.post('http://127.0.0.1:3000/api/attributions/create', this.theCustomer())
+                axios.post('http://127.0.0.1:3000/api/attribution/create', this.theCustomer())
                     .then(({ data }) => {
-                        console.log(data)
+                        console.log("data", data)
                         this.$emit('addAttribution', data)
                         this.dialog = false
                     })
@@ -76,9 +74,9 @@ export default {
         theCustomer: function () {
             return {
                 computerId: this.computer.id,
+                customerId: this.customer.id,
                 date: this.date,
                 hour: this.horaire,
-                id_client: this.customer.id ,
                 name: this.name,
                 firstname: this.firstname,
                 lastname: this.lastname

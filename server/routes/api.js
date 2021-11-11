@@ -10,6 +10,8 @@ router.post('/login', auth.login)
 
 router.get('/computers', computers.findAll)
 
+router.get('/computers/size', computers.getTotalPage)
+
 router.post('/computer/create', computers.create)
 
 router.post('/computer/remove', computers.delete)
@@ -22,6 +24,6 @@ router.get('/attributions', attributions.findAll)
 
 router.post('/attribution/create', attributions.create)
 
-router.post('/attribution/remove/:id', attributions.delete)
+router.post('/attribution/remove', attributions.delete)
 
 module.exports = router;

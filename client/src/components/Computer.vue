@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title>
       {{ computer.name }}
-      <RemoveComputer :computer="computer"/>
+      <RemoveComputer :computer="computer" @remove="removeComputer"/>
     </v-card-title>
     <v-card-text>
       <v-row v-for="(horaire, key) in horaires" :key="key">
@@ -59,14 +59,15 @@ export default {
   },
   methods : {
     initialise() {
-        for (let i=0; i < this.computer.Attributions.length; i++) {
-          let attribution = this.computer.Attributions[i][0]
-          this.attributions[attribution.hour] = {
-            id: attribution.id,
-            name: attribution.Customer.firstname + " " + attribution.Customer.lastname ,
+      if (this.computer.Attributions[0]){
+        this.computer.Attributions[0].forEach(attr => {
+          this.attributions[attr.hour] = {
+            id: attr.id,
+            name: attr.Customer.firstname + " " + attr.Customer.lastname ,
           }
-
+        })
       }
+
 
       this.buildHoraires();
     },
@@ -81,16 +82,17 @@ export default {
 
     },
     addAttribution: function (attribution) {
-      this.computer.Attributions.push(attribution)
-      this.initialise();
+      console.log("attribution", attribution)
+      console.log("Computerattribution", this.computer.Attributions)
+      this.computer.Attributions[0].push(attribution)
+      this.initialise()
     },
     removeAttribution: function(horaire){
-
       _.unset(this.attributions,horaire)
       this.buildHoraires();
     },
     removeComputer: function (){
-
+        this.$emit('refresh')
     }
   }
 }
