@@ -1,5 +1,5 @@
-import axios from 'axios';
 import _ from 'lodash';
+import {ApiService} from "@/service/api";
 
 export default {
     props: {
@@ -23,25 +23,19 @@ export default {
             ajouter: false,
             customer: {},
             dialog: false,
-            //
             loading: false,
             search: null,
             customers: [],
         }
     },
-
-    created() {
-    },
-
     watch: {
         search: function (val) {
             if (val && val.length > 1) {
                 this.loading = true
-                axios.get('http://127.0.0.1:3000/api/customer/search', { params: { query: val } })
-                    .then(({ data }) => {
+                ApiService.prototype.getCustomers(val).then(({ data }) => {
                         this.loading = false;
                         data.forEach(customer => {
-                            this.customers.push(this.formattedCustomer(customer))
+                            this.customers.push(this.formattedCustomerData(customer))
                         });
                     });
             }
@@ -58,20 +52,27 @@ export default {
 
         attribute: function () {
             if (this.isValid()) {
-                axios.post('http://127.0.0.1:3000/api/attribution/create', this.theCustomer())
+                ApiService.prototype.createAttribution(this.dataCustomer())
                     .then(({ data }) => {
-                        console.log("data", data)
                         this.$emit('addAttribution', data)
+
+                        this.flashMessage.success({
+                            message: "Attribution ajouté avec succès.",
+                            time: 5000,
+                        });
                         this.dialog = false
                     })
                     .catch(error => {
-                        //TODO catch error
+                        this.flashMessage.error({
+                            message: "Une erreur est survenue lors de l'attribution de ce poste.",
+                            time: 5000,
+                        });
                         console.log(error);
                     });
             }
 
         },
-        theCustomer: function () {
+        dataCustomer: function () {
             return {
                 computerId: this.computer.id,
                 customerId: this.customer.id,
@@ -82,7 +83,7 @@ export default {
                 lastname: this.lastname
             };
         },
-        formattedCustomer: function (customer) {
+        formattedCustomerData: function (customer) {
             return {
                 id: customer.id,
                 name: customer.firstname + " " + customer.lastname,

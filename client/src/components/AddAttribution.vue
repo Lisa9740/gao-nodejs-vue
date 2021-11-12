@@ -42,4 +42,4 @@
     </v-card>
   </v-dialog>
 </template>
-<script src="./AddAttribution.js"></script>
+<script src="./addAttribution.js"></script>

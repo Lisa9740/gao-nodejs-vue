@@ -18,6 +18,24 @@ exports.create = (req, res) => {
      })
 };
 
+exports.edit =(req, res) => {
+    let {id, name} = req.body
+    console.log("test", req.body)
+    try {
+      computer.findByPk(id).then(data =>{
+          data.name = name
+          data.save();
+            res.status(200).json({success:true, content: data});
+        })
+
+    } catch (e){
+        console.log(e)
+        return res.status(200).json({
+            success: false,
+            message: 'Ressource indisponible',
+        })
+    }
+}
 // Retrieve all Computers from the database.
 exports.findAll = async (req, res) => {
     const currentDate = req.query.date
@@ -73,10 +91,6 @@ exports.findComputerAttribution = (req, res) => {
     })
 };
 
-// Update a Tutorial by the id in the request
-exports.update = (req, res) => {
-
-};
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = async (req, res, next) => {

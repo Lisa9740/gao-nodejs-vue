@@ -22,36 +22,10 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn outlined text @click="dialog = false">Non</v-btn>
-        <v-btn outlined color="red" @click="supprimer" class="mr-2">Supprimer</v-btn>
+        <v-btn outlined color="red" @click="remove" class="mr-2">Supprimer</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
-<script>import axios from 'axios';
-
-export default {
-  props: {
-    computer: {
-      required: true
-    },
-  },
-  data() {
-    return {
-      dialog: false,
-    }
-  },
-  methods: {
-    supprimer: function () {
-      axios.post('http://127.0.0.1:3000/api/computer/remove/', {id : this.computer.id}).then(({ data }) => {
-        console.log(data)
-        this.$emit('remove');
-        this.dialog = false
-      })
-          .catch(error => {
-            //TODO catch error
-            console.log(error);
-          });
-
-    },
-  }
-}</script>
+<script src="./removeComputer.js">
+</script>

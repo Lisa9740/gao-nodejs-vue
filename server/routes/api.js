@@ -14,6 +14,8 @@ router.get('/computers/size', computers.getTotalPage)
 
 router.post('/computer/create', computers.create)
 
+router.post('/computer/edit', computers.edit)
+
 router.post('/computer/remove', computers.delete)
 
 router.post('/customer/create',  customers.create)

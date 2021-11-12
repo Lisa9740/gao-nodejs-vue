@@ -1,4 +1,3 @@
-
 <template>
   <v-dialog v-model="dialog" max-width="600px" >
     <template v-slot:activator="{ on }" >
@@ -37,48 +36,4 @@
     </v-card>
   </v-dialog>
 </template>
-<script>
-
-import axios from 'axios';
-export default {
-  props: {
-  },
-  components: {
-  },
-  data() {
-    return {
-      name: '',
-      dialog: false
-    }
-  },
-  created() {
-  },
-  methods: {
-    addComputer: function () {
-      if (this.isValid()) {
-        const data = {
-          name: this.name,
-        };
-        axios.post('http://127.0.0.1:3000/api/computer/create', data)
-            .then(({ data }) => {
-              this.$emit('add', data)
-              this.dialog = false
-            })
-            .catch(error => {
-              //TODO catch error
-              console.log(error);
-            });
-      }
-
-    },
-    isValid() {
-      return this.name !== ''
-    }
-  },
-  computed: {
-    validate() {
-      return this.isValid()
-    }
-  }
-}
-</script>
+<script src="./addComputer.js"></script>

@@ -29,4 +29,4 @@
     </v-card>
   </v-dialog>
 </template>
-<script src="./RemoveAttribution.js"></script>
+<script src="./removeAttribution.js"></script>

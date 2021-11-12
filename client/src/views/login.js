@@ -1,5 +1,5 @@
-import Axios from 'axios';
 import tokenConfig from '../utils/tokenConfig';
+import {ApiService} from "@/service/api";
 
 export default {
     data: () => ({
@@ -23,11 +23,11 @@ export default {
                 password : this.password
             }
             if(isReady) {
-                const connectInfo = await Axios.post('http://127.0.0.1:3000/api/login', dataSend);
+                const connectInfo = await ApiService.prototype.login(dataSend);
                 if(connectInfo.data.token) {
                     tokenConfig.setToken(connectInfo.data.token);
                     location.href = '/';
-                    // this.$router.push('/');
+
                     console.log('true', connectInfo.data);
                     this.flashMessage.success({
                         message: connectInfo.data.message,
