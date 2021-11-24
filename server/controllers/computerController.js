@@ -37,7 +37,7 @@ exports.edit =(req, res) => {
     }
 }
 // Retrieve all Computers from the database.
-exports.findAll = async (req, res) => {
+exports.findAllWithPagination = async (req, res) => {
     const currentDate = req.query.date
     const page = +req.query.page || 1;
 
@@ -69,6 +69,36 @@ exports.findAll = async (req, res) => {
         })
     }
 
+};
+
+exports.findAll = async (req, res) => {
+    const currentDate = req.query.date
+
+    try {
+        computer.findAll({
+            attributes: ['id', 'name'],
+            include: [{
+                model: attribution,
+                attributes: ['id', 'date', 'hour'],
+                required: false,
+                where: {
+                    date: currentDate
+                },
+                include: [{
+                    model: customer,
+                    attributes: ['id', 'firstname', 'lastname'],
+                    required: false
+                }]
+            }]
+        }).then(data => {
+            res.status(200).json(getComputerAttributions(data));
+        });
+    } catch (e) {
+        return res.status(200).json({
+            success: false,
+            message: 'Ressource indisponible',
+        })
+    }
 };
 
 exports.getTotalPage = (req, res) => {
