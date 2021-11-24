@@ -72,7 +72,7 @@ exports.findAllWithPagination = async (req, res) => {
 };
 
 exports.findAll = async (req, res) => {
-    const currentDate = req.query.date
+    const currentDate = req.query
 
     try {
         computer.findAll({
