@@ -8,7 +8,9 @@ const auth = require("../controllers/authController.js");
 
 router.post('/login', auth.login)
 
-router.get('/computers', computers.findAll)
+router.get('/computers', computers.findAllWithPagination)
+
+router.get('/computer/all', computers.findAll)
 
 router.get('/computers/size', computers.getTotalPage)
 
