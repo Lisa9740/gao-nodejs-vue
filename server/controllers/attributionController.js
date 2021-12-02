@@ -74,10 +74,31 @@ exports.findAll = (req, res) => {
 
 };
 
-// // Update a Tutorial by the id in the request
-// exports.update = (req, res) => {
-//
-// };
+
+exports.findAllByComputer = async  (req, res) => {
+    const date = req.query.date;
+    const computerId = req.query.computerId;
+
+    console.log(date, computerId)
+
+    try{
+        let data = await attribution.findAll({
+            attributes: ['id', 'hour', 'date', 'customerId', 'computerId'],
+            where: {
+                computerId: computerId,
+                date: date
+            }
+        })
+        console.log(data)
+        res.status(200).json(data);
+    }catch (e){
+        return res.status(200).json({
+            success: false,
+            message: 'Ressource indisponible',
+        })
+    }
+
+};
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = async (req, res) => {

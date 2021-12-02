@@ -10,8 +10,6 @@ router.post('/login', auth.login)
 
 router.get('/computers', computers.findAllWithPagination)
 
-router.get('/computer', computers.findAll)
-
 router.get('/computers/size', computers.getTotalPage)
 
 router.post('/computer/create', computers.create)
@@ -24,7 +22,9 @@ router.post('/customer/create',  customers.create)
 
 router.get('/customer/search',  customers.findAll)
 
-router.get('/attributions', attributions.findAll)
+router.get('/attributions/all', attributions.findAll)
+
+router.get('/attribution', attributions.findAllByComputer);
 
 router.post('/attribution/create', attributions.create)
 
